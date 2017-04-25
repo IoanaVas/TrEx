@@ -8,16 +8,37 @@
   <title>Expense Tracker</title>
 
   <link rel="stylesheet" href="css/login.css">
-  <link rel="stylesheet" href="css/reports.css">
+
   <link rel="stylesheet" href="css/expenses.css">
  
-        
+  <style>
+      
+    
+          body, html {
+    height: 100%;
+    margin: 0;
+}
+
+.bg {
+    /* The image used */
+    background-image: url("expenses.jpg");
+
+    /* Full height */
+    height: 100%; 
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+      
+  </style> 
 </head>
     
 
 <body>
   
-            
+        <div class="bg">    
   <div class="topnav" id="myTopnav">
       <a href="login.php"> Profile </a>
       <a href="groups.php">Groups</a>
@@ -32,43 +53,37 @@
    
    
     
-  
-         <div class="login-page">
- <div class="wrapper">
-     <br>
-     <br>
-        <button onclick="tableCreate(); this.onclick=null;">Raport Lunar Personal</button>
-      
-     <br>
- 
-     <br>
-      <button>Raport pe grup</button>
-      
-      
-      <br>
-     <br>
-      <button>Raport in functie de medii(varsta, zona) </button>
-      
-    
-     <br>
-     <br>
-      <button>Costul mediu al produselor</button>
-     
-   
-     
-  </div>
+    <div id="list5">
+  <ul>
+      <li> Choose a report
+         <ol>
+            <li>Monthly report  &nbsp;   <button id="button2" onclick="tableCreate(); this.onclick=null;">Show</button>
+            </li>
+            <li>Groups report  &nbsp; &nbsp; <button id="button2" onclick="tableCreate(); this.onclick=null;">Show</button> 
+            </li>
+            <li>Report based on a characteristic  <button id="button2" onclick="tableCreate(); this.onclick=null;">Show</button>
+                 </li>
+            <li>Average cost of expenses &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; <button  id="button2" onclick="tableCreate(); this.onclick=null;">Show</button>
+                </li>
+             
+         </ol>
+  </ul>
+        &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; <a href="reports.php">
+          <button id="button1">Hide</button>
+         </a>
 </div>
+  
+ 
      
      <p id="familie"> </p>
     <br>
-    <br>
-    <br>
+   
   
      
-    <table id="myTable">
-        <br>
+    <table id="imagetable">
+      
     </table>
-    
+      
     <script>
       var contor=0;
        function tableCreate()
@@ -80,23 +95,26 @@
                location.reload();
            }
             document.getElementById("familie").innerHTML = ".";
-            var table = document.getElementById("myTable");
+            var table = document.getElementById("imagetable");
             var row = table.insertRow(0);
             var cell1 = row.insertCell(0);
             var cell2 = row.insertCell(1);
             var cell3 = row.insertCell(2);
             var things = ["Chocolate", "Milk", "Bread", "Soap", "Watch", "Coke", "Perfume", "Perfume"];
-            var users = ["Ioana12", "BogdanD", "CostelNicusor", "AnaMaria1", "DanD", "MateiL", "IoanaV", "Korodescu",
-            "MatcoV", "admin", "Monica22", "Ioana12" ] ;
+           
             var dimension ;
 
            
             cell1.innerHTML = "Expense";
+           
             cell2.innerHTML = "Cost";
             cell3.innerHTML = "Date";
+            cell1.style.fontStyle="italic";
+            cell2.style.fontStyle="italic";
+            cell3.style.fontStyle="italic";
             dimension = things.length;
 
-            for(var i = 1; i < 12; i++)
+            for(var i = 1; i < 9; i++)
             {
               row = table.insertRow(i);
               cell1 = row.insertCell(0);

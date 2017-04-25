@@ -9,12 +9,30 @@
 
       <link rel="stylesheet" href="css/login.css">
       <link rel="stylesheet" href="css/expenses.css">
-  
+      <style>
+          body, html {
+    height: 100%;
+    margin: 0;
+}
+
+.bg {
+    /* The image used */
+    background-image: url("pattern2.jpg");
+
+    /* Full height */
+    height: 100%; 
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+      </style>
 </head>
     
 
 <body>
-
+    
 
             
   <div class="topnav" id="myTopnav">
@@ -32,17 +50,16 @@
 
 
 
-    
-<table class ="green" align="center" border="3" color >
+    <div class="bg">
+<table id="imagetable" >
     <br>
-    <br>
-    <br>
+   
 
   <tr>
-    <th>Expense</th>
-    <th>Cost</th>
-    <th>Date</th>
-	<th>Type</th>
+      <th> <i>Expense </i></th>
+      <th> <i> Cost </i></th>
+      <th> <i>Date </i></th>
+      <th><i>Type </i></th>
   </tr>
   <tr>
     <td>Chocolate</td>
@@ -179,52 +196,18 @@
 
 </table>
 
-  
+   
   
          <div class="login-page">
  <div class="wrapper">
      <br>
-     <br>
-     <button> Add Expense </button>
+     <button id="button1"> Add Expense </button>
      
      
   </div>
 
+ </div>
 
-
-<script>
-function tableCreate(){
-    
-    
-    
-    
-    
-    var body = document.body,
-        tbl  = document.createElement('table');
-    tbl.style.width  = '100px';
-    tbl.style.border = '1px solid black';
-
-    for(var i = 0; i < 3; i++){
-        var tr = tbl.insertRow();
-        for(var j = 0; j < 2; j++){
-            if(i == 2 && j == 1){
-                break;
-            } else {
-                var td = tr.insertCell();
-                td.appendChild(document.createTextNode('Cell'));
-                td.style.border = '1px solid black';
-                if(i == 1 && j == 1){
-                    td.setAttribute('rowSpan', '2');
-                }
-            }
-        }
-    }
-    body.appendChild(tbl);
-}
-
-function activare() {
-    document.getElementById('activare').style.cssText = 'background-color: red; color: white; font-size: 44px';
-}
 
 
 </script>
