@@ -49,8 +49,7 @@
     
 
 
-
-    <div class="bg">
+<div class="bg">
 <table id="imagetable" >
     <br>
    
@@ -198,7 +197,7 @@
 
    
   
-         <div class="login-page">
+         <div >
  <div class="wrapper">
      <br>
      <button id="button1"> Add Expense </button>

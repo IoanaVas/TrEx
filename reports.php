@@ -45,7 +45,7 @@
       <a href="expenses.php">Expenses</a>
       <a href="reports.php">Reports</a>
         <div class="right">
-         <a href="index.php">Sign Out</a>
+         <a href="logout.php">Sign Out</a>
       </div>
   </div>
 

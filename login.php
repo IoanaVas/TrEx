@@ -1,45 +1,161 @@
 
+<?php
 
+require './test_connection.php';
+
+
+session_start();
+
+?> 
 <!DOCTYPE html>
 <html>
 
-    
+
     <head>
-  <meta charset="UTF-8">
-  <title>Expense Tracker</title>
+        <meta charset="UTF-8">
+        <title>Expense Tracker</title>
 
-      <link rel="stylesheet" href="css/login.css">
-      <link rel="stylesheet" href="css/style.css">
-      
-      <style>
-        
-         body, html {
-        height: 100%;
-        margin: 0;
-        }
+        <link rel="stylesheet" href="css/login.css">
+        <link rel="stylesheet" href="css/style.css">
 
-.bg {
-    /* The image used */
-    background-image: url("login2.jpg");
+        <style>
 
-    /* Full height */
-    height: 100%; 
+            body, html {
+                height: 100%;
+                margin: 0;
+            }
 
-    /* Center and scale the image nicely */
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-      </style>
-  
-</head>
-    
+            .bg {
+                /* The image used */
+                background-image: url("login2.jpg");
 
-<body>
-    
-   
+                /* Full height */
+                height: 100%; 
+
+                /* Center and scale the image nicely */
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: cover;
+            }
+        </style>
+
+    </head>
+
+
+    <?php
      
-  
+     $msg="";
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $myid =  $_SESSION['login_id'] ;
+        if (isset($_POST['firstname']) &&  $_POST['firstname'] !== '') {
+            
+            $newfirstname = $_POST["firstname"]; // check if the username has been set
+            $firstname = $_SESSION['login_firstname'];
+            $sql = "Update users set firstname = '$newfirstname' where firstname = '$firstname' and id = '$myid' ";
+            // $result = mysqli_query($db, $sql);
+            //  $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+
+            if (mysqli_query($db, $sql)) {
+                $_SESSION['login_firstname'] = $newfirstname;
+            }
+        }
+        
+        if (isset($_POST['lastname']) &&  $_POST['lastname'] !== '' ) {
+
+           $newlastname = $_POST["lastname"]; // check if the username has been set
+            $lastname = $_SESSION['login_lastname'];
+          
+            // $result = mysqli_query($db, $sql);
+            //  $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+               $sql = "Update users set lastname = '$newlastname' where lastname = '$lastname' and id = '$myid'";
+            if (mysqli_query($db, $sql)) {
+                $_SESSION['login_lastname'] = $newlastname;
+            }
+        }
+        
+         if (isset($_POST['city']) &&  $_POST['city'] !== '' ) {
+
+           $newcity = $_POST["city"]; // check if the username has been set
+            $city = $_SESSION['login_city'];
+          
+            // $result = mysqli_query($db, $sql);
+            //  $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+               $sql = "Update users set city = '$newcity' where city = '$city' and id = '$myid'";
+            if (mysqli_query($db, $sql)) {
+                $_SESSION['login_city'] = $newcity;
+            }
+        }
+        
+        
+         if (isset($_POST['job']) &&  $_POST['job'] !== '' ) {
+
+           $newjob = $_POST["job"]; // check if the username has been set
+            $job = $_SESSION['login_job'];
+          
+            // $result = mysqli_query($db, $sql);
+            //  $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+               $sql = "Update users set job = '$newjob' where job = '$job' and id = '$myid'";
+            if (mysqli_query($db, $sql)) {
+                $_SESSION['login_job'] = $newjob;
+            }
+        }
+        
+         if (isset($_POST['age']) &&  $_POST['age'] !== '' ) {
+
+           $newage = $_POST["age"]; // check if the username has been set
+            $age = $_SESSION['login_age'];
+          
+            // $result = mysqli_query($db, $sql);
+            //  $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+               $sql = "Update users set age = '$newage' where age = '$age' and id = '$myid'";
+            if (mysqli_query($db, $sql)) {
+                $_SESSION['login_age'] = $newage;
+            }
+        }
+       
+        
+         if (isset($_POST['pass']) && $_POST['pass'] !== '') {
+
+            if (isset($_POST['repass']) && $_POST['repass'] !== '') {
+                if (isset($_POST['repass2']) && $_POST['repass2'] !== '') {
+
+
+                    if ($_POST['pass'] !== $_SESSION['login_pass']) {
+                        $msg="Password incorrect or new password doesn't match" ;
+                    } else {
+                        if ($_POST['repass'] == $_POST['repass2']) {
+                           
+                            $newpass = $_POST['repass']; // check if the username has been set
+                            $pass = $_SESSION['login_pass'];
+                            $msg="Password succesfully changed" ;
+                            
+                            
+                            
+                            // $result = mysqli_query($db, $sql);
+                            //  $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+                            $sql = "Update users set password = '$newpass' where password = '$pass' and id = '$myid'";
+                            if (mysqli_query($db, $sql)) {
+                               $_SESSION['login_pass'] = $newpass;
+                            }
+                        }
+                        else
+                            $msg="Password incorrect or new password doesn't match" ;
+                       
+                    }
+                }
+            }
+        }
+        
+        
+    }
+    ?>
+
+
+    <body background="login.jpg">
+
+
+
+
         <div class="topnav" id="myTopnav">
 
 
@@ -48,49 +164,91 @@
             <a href="expenses.php">Expenses</a>
             <a href="reports.php">Reports</a>
             <div class="right">
-               <a href="index.php">Sign Out</a>
+                <a href="logout.php">Sign Out</a>
             </div>
-      <!--      <a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776;</a>-->
+            <!--      <a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776;</a>-->
 
         </div>
-      <div class="bg">
-  <div class="login-page">
-    
-        <div class="form">
-           
-         <input type="text" placeholder="First name" value="Dan" />
-         <input type="text" placeholder="Last name" value="Diaconu"/>
-          <input type="text" placeholder="Job" value="Student"/>
-         <input type="text" placeholder="Place of birth" value="Iasi"/>
-         
-         <input type="password" placeholder="Enter password"/>
-         <input type="password" placeholder="Enter new password"/>
-         <input type="password" placeholder="Enter new password"/>
-         
-         
-         <a href="login.php">
-          <button>Save Changes</button>
-         </a>
+        <br>
+        <h2 style="text-align: center; margin-bottom:20px; margin-top:30px;"> Welcome,  <?= $_SESSION['login_firstname'] ?>! Here you can check your account details. </h2>
+        <div  >
+
+            <div class="login-page">
+
+                <div class="form">
+                    <form class="login-form"  name="myForm"  role = "form" 
+                          action = "login.php"   method = "post">
+                        <input type="text" placeholder="Your first name:  <?= $_SESSION['login_firstname'] ?>" name="firstname"/> 
+
+                        <input type="text" placeholder="Your last name:  <?= $_SESSION['login_lastname'] ?>" name="lastname"/>
+                        <input type="text" placeholder="Your job:  <?= $_SESSION['login_job'] ?>" name="job"/>
+                        <input type="text" placeholder="Your city:  <?= $_SESSION['login_city'] ?>" name="city"/>
+                        <input type="number" placeholder="Your age:  <?= $_SESSION['login_age'] ?>" name="age"/>
+
+
+
+
+
+
+
+                        <a href="login.php">
+                            <button>Edit</button>
+                        </a>
+                    </form>
+
+
+
+                </div>
+
+
+            </div>
+
+
+
+        </div>
+
+
+        <div class="login-page">
+
+            <div class="form">
+                <form class="login-form"  name="myForm"  role = "form" 
+                      action = "login.php"   method = "post">
+
+
+
+
+
+                    <input type="password" placeholder="Enter password" name = "pass" required />
+                    <input type="password" placeholder="Enter new password" name = "repass" required/>
+                    <input type="password" placeholder="Enter new password" name = "repass2" required/>
+
+
+                    <a href="login.php">
+                        <button>Change Password</button>
+                    </a>
+                </form>
+
+            </div>
+
+
+        </div>
+
+    </body> 
+
+     <p style="text-align:center;">
         
-    </div>
+         <?php 
+         
+         
+         echo $msg;
+         
+   
         
-      <br>
-      <br>
-       <br>
-      <br>
-       <br>
-      <br> <br>
-      <br>
-      
-      
-  
-      
-  </div>
-
-
-</body> 
-
-
+   
+       
+    ?>
+        
+    </p>
 
 
 
