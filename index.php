@@ -73,9 +73,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <input type="text" placeholder="Enter your username here" name="username" />
                     <input type="password" name="pass" placeholder="Enter your password here" />
                     <button>Log in</button>
-                    <a href="signup.php">
-                        <button class="button-signup">Not registered? Create an account</button>
-                    </a>
+                    
+                        <button class="button-signup" onclick='this.form.action = "signup.php"'  > Not registered? Create an account</button>
+                  
                 </form>
             </div>
         </div>

@@ -72,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <input type="number" placeholder="Cost" name="cost" required/>
                 <input type="text" placeholder="Date in format year-month-day" name="date" required/>
                 
-                <button> Add Expense </button>
+                <button style="margin-top:30px;"> Add Expense </button>
                 
             </form>
 

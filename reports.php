@@ -4,7 +4,6 @@
     <head>
         <meta charset="UTF-8">
         <title>Expense Tracker</title>
-
         <link rel="stylesheet" href="css/login.css">
         <link rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="css/expenses.css">
@@ -19,89 +18,54 @@
                 <a href="logout.php">Sign Out</a>
             </div>
         </div>
-        <h2 class="page-title">Choose a report</h2>
-        <div class="page-content">
-    <div id="list5">
-  <ul>
-            <li>Monthly report  &nbsp;   <button id="button2" onclick="tableCreate(); this.onclick=null;">Show</button>
-            </li>
-            <li>Groups report  &nbsp; &nbsp; <button id="button2" onclick="tableCreate(); this.onclick=null;">Show</button> 
-            </li>
-            <li>Report based on a characteristic  <button id="button2" onclick="tableCreate(); this.onclick=null;">Show</button>
-                 </li>
-            <li>Average cost of expenses &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; <button  id="button2" onclick="tableCreate(); this.onclick=null;">Show</button>
-                </li>
-  </ul>
-        <a href="reports.php">
-          <button id="button1">Hide</button>
-         </a>
-</div>
-  
- 
-     
-     <p id="familie"> </p>
-    <br>
-   
-  
-     
-    <table id="imagetable">
-      
-    </table>
+       
+        <br> <br> <br> <br>
+        
+       
+       <div id="show-all-users">
+          <div class="form">
+            <form> 
+               
+                 <select id="report-type" style="width:100%;margin-bottom:15px;">
+            <option value="raport_avg_expense_price"> Report_avg_expense_price</option>
+            <option value="raport_user"> Report_user </option>
+         
+
+          </select>
+          <input type="text" id="report-data" placeholder="report data" />
+          <select id="show-all-users-type" style="width:100%">
+            <option value="json">JSON</option>
+            <option value="xml">XML</option>
+            <option value="html">HTML</option>
+          </select>
+          <br/>
+                <button style="margin-top:30px;"> Show </button>
+                
+            </form>
+          </div>
         </div>
+    
       
-    <script>
-      var contor=0;
-       function tableCreate()
-       {
-           contor++;
-           if ( contor == 2 )
-           {
-               contor = 0 ;
-               location.reload();
-           }
-            document.getElementById("familie").innerHTML = ".";
-            var table = document.getElementById("imagetable");
-            var row = table.insertRow(0);
-            var cell1 = row.insertCell(0);
-            var cell2 = row.insertCell(1);
-            var cell3 = row.insertCell(2);
-            var things = ["Chocolate", "Milk", "Bread", "Soap", "Watch", "Coke", "Perfume", "Perfume"];
-           
-            var dimension ;
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
 
-           
-            cell1.innerHTML = "Expense";
-           
-            cell2.innerHTML = "Cost";
-            cell3.innerHTML = "Date";
-            cell1.style.fontStyle="italic";
-            cell2.style.fontStyle="italic";
-            cell3.style.fontStyle="italic";
-            dimension = things.length;
-
-            for(var i = 1; i < 9; i++)
-            {
-              row = table.insertRow(i);
-              cell1 = row.insertCell(0);
-              cell2 = row.insertCell(1);
-              cell3 = row.insertCell(2);
-            
-
-              
-            
-
-              position = Math.floor(Math.random() *dimension);
-              cell1.innerHTML = things[position];
-
-           
-              cell2.innerHTML =  Math.floor(Math.random() *100);
-
-             
-              cell3.innerHTML = i + "/" + "04" + "/2017" ;
-
-            }
-           
-       }
+  <script>
+  $(document).ready(function() {
+    $('#show-all-users button').on('click', function() {
+      var type = $("#show-all-users-type").val();
+      var reptype = $("#report-type").val();
+      var data = $("#report-data").val();
+      $.ajax({
+      url: `reports/showAllUsers.php?data=${data}&type=${type}&reptype=${reptype}`,
+      method: "GET"
+    })
+    .done(function(data) {
+      window.location.href="reports/results." + type;
+    });
+    });
+    
+  })
     </script>
     
     

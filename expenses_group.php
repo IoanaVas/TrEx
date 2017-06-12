@@ -159,17 +159,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 ?>
 
 
-<!--
 
+<!--
 // * Script de populare EXPENSES!!! *
-/*
+
   $expenses_low = array("Nuts", "banana", "potatoes", "bread", "milk", "chocholate", "Pepsi", "Pencil", "Water", "Paper", "T-Shirt", "Bracelet",
   "Jeans", "Hamburger", "Cigarette", "Coke", "Ball", "Gloves", "Book", "Movie", "Game", "Plant", "Bus Ticket", "Taxi", "Shoes");
   $expenses_mid = array("Plane ticket", "T-Shirt", "Gloves", "Shoes", "Headphones", "Keyboard", "Phone", "Watch", "TV", "Monitor", "Desk", "Jewelery", "Gym", "Suppliments");
 
   $max = sizeof($expenses_low);
   $max2= sizeof($expenses_mid);
-  $ses_group_id = $_SESSION['manage_groupid'];
+  $ses_group_id = $this_group_id;
   $result = mysqli_query($db, "SELECT * FROM group_participants");
   while ($row = mysqli_fetch_array($result)) {
 
@@ -236,7 +236,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
   $max = sizeof($expenses_low);
   $max2= sizeof($expenses_mid);
-  $ses_group_id = $_SESSION['manage_groupid'];
+  $ses_group_id = $this_group_id;
   $result = mysqli_query($db, "SELECT * FROM users");
   while ($row = mysqli_fetch_array($result)) {
 
@@ -289,5 +289,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
 
-  }
--->
+  }-->
+
