@@ -3,89 +3,166 @@ require './test_connection.php';
 session_start();
 if (!empty($_GET['id'])) {
 
-    $playerid = $_GET['id'];
-    echo $playerid;
+    $this_group_id = $_GET['id'];
 }
 ?>
 
-
 <!DOCTYPE html>
 <html>
-<head>
-<style>
-table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-}
+    <head>
+        <meta charset="UTF-8">
+        <title>Expense Tracker</title>
 
-td, th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-}
+        <link rel="stylesheet" href="css/login.css">
+        <link rel="stylesheet" href="css/expenses.css">
+        <link rel="stylesheet" href="css/style.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+        <style>
+            table {
+                font-family: arial, sans-serif;
+                border-collapse: collapse;
+                width: 100%;
+            }
 
-tr:nth-child(even) {
-    background-color: #dddddd;
-}
-</style>
-</head>
-<body>
+            td, th {
+                border: 1px solid #dddddd;
+                text-align: left;
+                padding: 8px;
+            }
 
-<table>
-  <tr>
-    <th>Username</th>
-    <th>Expense</th>
-    <th>Cost</th>
-    <th>Date</th>
-    
-  </tr>
-  <tr>
-    <td>Alfreds Futterkiste</td>
-    <td>Maria Anders</td>
-    <td>Germany</td>
-    <td>Germany</td>
-  </tr>
-  <tr>
-    <td>Centro comercial Moctezuma</td>
-    <td>Francisco Chang</td>
-    <td>Mexico</td>
-    <td>Germany</td>
-  </tr>
-  <tr>
-    <td>Ernst Handel</td>
-    <td>Roland Mendel</td>
-    <td>Austria</td>
-  </tr>
-  <tr>
-    <td>Island Trading</td>
-    <td>Helen Bennett</td>
-    <td>UK</td>
-  </tr>
-  <tr>
-    <td>Laughing Bacchus Winecellars</td>
-    <td>Yoshi Tannamuri</td>
-    <td>Canada</td>
-  </tr>
-  <tr>
-    <td>Magazzini Alimentari Riuniti</td>
-    <td>Giovanni Rovelli</td>
-    <td>Italy</td>
-  </tr>
-  
+            tr:nth-child(even) {
+                background-color: #dddddd;
+            }
+        </style>
+    </head>
 
-</table>
-   <p style="text-align:center;">
-  <button onclick="window.location.href='groups.php'" style="background-color:grey">Back</button>
-   </p>
-</body>
+    <body >
+
+        <p style="text-align:right;">
+            <button onclick="window.location.href = 'groups.php'" style="background-color:grey">Back</button>
+        </p>
+        
+        
+        <p style="text-align:center;">
+
+            Current users in the group are :
+            <?php
+            $result = mysqli_query($db, "SELECT * FROM group_participants");
+            while ($row = mysqli_fetch_array($result)) {
+
+                $group_id = $row['group_id'];
+                $user_id = $row['users_id'];
+                if ($group_id == $this_group_id) {
+
+                    $sql = "SELECT firstname, lastname, username from users WHERE id = '$user_id'";
+                    $result2 = mysqli_query($db, $sql);
+                    $row2 = mysqli_fetch_array($result2, MYSQLI_ASSOC);
+                    $nickname = $row2['firstname'] . " '" . $row2['username'] . "' " . $row2['lastname'] . " ; ";
+
+
+                    echo $nickname;
+                }
+            }
+            ?>
+
+
+
+
+
+
+            <?php
+            echo "    \n";
+            echo "<table>\n";
+            echo "  <tr>\n";
+            echo "    <th>Username</th>\n";
+            echo "    <th>Expense</th>\n";
+            echo "    <th>Cost</th>\n";
+            echo "    <th>Date</th>\n";
+            echo "    \n";
+            echo "  </tr>\n";
+
+            $result = mysqli_query($db, "SELECT * FROM Expenses where group_id = '$this_group_id' order by date desc");
+            while ($row = mysqli_fetch_array($result)) {
+                $id = $row['user_id'];
+                $sql = "SELECT username from users WHERE id = '$id'";
+                $result3 = mysqli_query($db, $sql);
+                $row3 = mysqli_fetch_array($result3, MYSQLI_ASSOC);
+                $username = $row3['username'];
+                $expense = $row['expense'];
+                $cost = $row['cost'];
+                $date = $row['date'];
+                echo "  <tr>\n";
+                echo "  <td> $username</td>\n";
+                echo "  <td> $expense</td>\n";
+                echo "  <td> $cost</td>\n";
+                echo "  <td>$date</td>\n";
+                echo "  </tr>\n";
+            }
+
+            echo "</table>\n";
+            ?>
+
+
+            <br> <br>
+     
+
+
+
+        </div>
+
+
+<div class="form">
+            <form  name="myForm"  role = "form" 
+                  method = "post" action=""> 
+                <input type="text" placeholder="Expense" name="expense" required />
+                <input type="number" placeholder="Cost" name="cost" required/>
+                <input type="text" placeholder="Date in format year-month-day" name="date" required/>
+                
+                <button> Add Expense </button>
+                
+
+
+
+
+    </body>
+
+
 </html>
 
 
 
 <?php
+
+      
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $myid = $_SESSION['login_id'];
+    if (isset($_POST['expense']) && $_POST['expense'] !== '' && isset($_POST['cost']) && $_POST['cost'] !== '' && isset($_POST['date']) && $_POST['date'] !== '') {
+        $sql = "SELECT name FROM  group_details where id = '$this_group_id'";
+        $result3 = mysqli_query($db, $sql);
+        $rowy = mysqli_fetch_array($result3, MYSQLI_ASSOC);
+        $this_group_name = $rowy['name'];
+        
+        $expense = $_POST["expense"];
+        $cost = $_POST["cost"];
+        $date = $_POST["date"];
+        $myid = $_SESSION['login_id'] ;
+        $username = $_SESSION['login_user'];
+        $sql = "INSERT INTO Expenses  VALUES ('$myid', '$expense', '$cost','$date', '$this_group_name', '$this_group_id' )";
+        if (mysqli_query($db, $sql)) {
+        echo "New record created successfully";
+        } else {
+        echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+        }
+        header('Location: solve2.php?id='.$this_group_id);
+    }
+}
+?>
+
+
+<!--
+
+// * Script de populare EXPENSES!!! *
 /*
- * Script de populare EXPENSES!!! *
   $expenses_low = array("Nuts", "banana", "potatoes", "bread", "milk", "chocholate", "Pepsi", "Pencil", "Water", "Paper", "T-Shirt", "Bracelet",
   "Jeans", "Hamburger", "Cigarette", "Coke", "Ball", "Gloves", "Book", "Movie", "Game", "Plant", "Bus Ticket", "Taxi", "Shoes");
   $expenses_mid = array("Plane ticket", "T-Shirt", "Gloves", "Shoes", "Headphones", "Keyboard", "Phone", "Watch", "TV", "Monitor", "Desk", "Jewelery", "Gym", "Suppliments");
@@ -107,7 +184,7 @@ tr:nth-child(even) {
   $group_name = $row3['name'] ;
 
 
-  for ( $i = 1; $i <= 2 ; $i++)
+  for ( $i = 1; $i <= 6 ; $i++)
   {
   $val = rand(1,$max-1);
   $expense = $expenses_low[$val] ;
@@ -213,5 +290,4 @@ tr:nth-child(even) {
 
 
   }
-
- */?>
+-->
