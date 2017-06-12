@@ -1,62 +1,28 @@
 
 <!DOCTYPE html>
 <html>
-
-    
     <head>
-  <meta charset="UTF-8">
-  <title>Expense Tracker</title>
+        <meta charset="UTF-8">
+        <title>Expense Tracker</title>
 
-  <link rel="stylesheet" href="css/login.css">
-
-  <link rel="stylesheet" href="css/expenses.css">
- 
-  <style>
-      
-    
-          body, html {
-    height: 100%;
-    margin: 0;
-}
-
-.bg {
-    /* The image used */
-    background-image: url("expenses.jpg");
-
-    /* Full height */
-    height: 100%; 
-
-    /* Center and scale the image nicely */
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-      
-  </style> 
-</head>
-    
-
-<body>
-  
-        <div class="bg">    
-  <div class="topnav" id="myTopnav">
-      <a href="login.php"> Profile </a>
-      <a href="groups.php">Groups</a>
-      <a href="expenses.php">Expenses</a>
-      <a href="reports.php">Reports</a>
-        <div class="right">
-         <a href="logout.php">Sign Out</a>
-      </div>
-  </div>
-
-    
-   
-   
-    
+        <link rel="stylesheet" href="css/login.css">
+        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/expenses.css">
+    </head>
+    <body class="page reports-page">   
+        <div class="topnav" id="myTopnav">
+            <a href="login.php"> Profile </a>
+            <a href="groups.php">Groups</a>
+            <a href="expenses.php">Expenses</a>
+            <a href="reports.php">Reports</a>
+            <div class="right">
+                <a href="logout.php">Sign Out</a>
+            </div>
+        </div>
+        <h2 class="page-title">Choose a report</h2>
+        <div class="page-content">
     <div id="list5">
   <ul>
-      <li> Choose a report
-         <ol>
             <li>Monthly report  &nbsp;   <button id="button2" onclick="tableCreate(); this.onclick=null;">Show</button>
             </li>
             <li>Groups report  &nbsp; &nbsp; <button id="button2" onclick="tableCreate(); this.onclick=null;">Show</button> 
@@ -65,10 +31,8 @@
                  </li>
             <li>Average cost of expenses &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; <button  id="button2" onclick="tableCreate(); this.onclick=null;">Show</button>
                 </li>
-             
-         </ol>
   </ul>
-        &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; <a href="reports.php">
+        <a href="reports.php">
           <button id="button1">Hide</button>
          </a>
 </div>
@@ -83,6 +47,7 @@
     <table id="imagetable">
       
     </table>
+        </div>
       
     <script>
       var contor=0;

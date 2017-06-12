@@ -1,48 +1,8 @@
-
 <?php
 
 require './test_connection.php';
 
-
 session_start();
-
-?> 
-<!DOCTYPE html>
-<html>
-
-
-    <head>
-        <meta charset="UTF-8">
-        <title>Expense Tracker</title>
-
-        <link rel="stylesheet" href="css/login.css">
-        <link rel="stylesheet" href="css/style.css">
-
-        <style>
-
-            body, html {
-                height: 100%;
-                margin: 0;
-            }
-
-            .bg {
-                /* The image used */
-                background-image: url("login2.jpg");
-
-                /* Full height */
-                height: 100%; 
-
-                /* Center and scale the image nicely */
-                background-position: center;
-                background-repeat: no-repeat;
-                background-size: cover;
-            }
-        </style>
-
-    </head>
-
-
-    <?php
      
      $msg="";
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -148,17 +108,20 @@ session_start();
         
         
     }
-    ?>
+?> 
 
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Expense Tracker</title>
 
-    <body background="login.jpg">
-
-
-
-
+        <link rel="stylesheet" href="css/login.css">
+        <link rel="stylesheet" href="css/style.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    </head>
+    <body class="page index-page">
         <div class="topnav" id="myTopnav">
-
-
             <a href="login.php"> Profile </a>
             <a href="groups.php">Groups</a>
             <a href="expenses.php">Expenses</a>
@@ -166,15 +129,10 @@ session_start();
             <div class="right">
                 <a href="logout.php">Sign Out</a>
             </div>
-            <!--      <a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776;</a>-->
-
         </div>
-        <br>
-        <h2 style="text-align: center; margin-bottom:20px; margin-top:30px;"> Welcome,  <?= $_SESSION['login_firstname'] ?>! Here you can check your account details. </h2>
-        <div  >
-
-            <div class="login-page">
-
+        <h2 class="page-title"> Welcome,  <?= $_SESSION['login_firstname'] ?>! Here you can check your account details. </h2>
+        <div>
+            <div>
                 <div class="form">
                     <form class="login-form"  name="myForm"  role = "form" 
                           action = "login.php"   method = "post">
@@ -185,72 +143,27 @@ session_start();
                         <input type="text" placeholder="Your city:  <?= $_SESSION['login_city'] ?>" name="city"/>
                         <input type="number" placeholder="Your age:  <?= $_SESSION['login_age'] ?>" name="age"/>
 
-
-
-
-
-
-
                         <a href="login.php">
                             <button>Edit</button>
                         </a>
                     </form>
-
-
-
                 </div>
-
-
             </div>
-
-
-
         </div>
 
 
-        <div class="login-page">
-
+        <div>
             <div class="form">
-                <form class="login-form"  name="myForm"  role = "form" 
-                      action = "login.php"   method = "post">
-
-
-
-
-
+                <form class="login-form"  name="myForm"  role = "form" action = "login.php"   method = "post">
                     <input type="password" placeholder="Enter password" name = "pass" required />
                     <input type="password" placeholder="Enter new password" name = "repass" required/>
                     <input type="password" placeholder="Enter new password" name = "repass2" required/>
-
 
                     <a href="login.php">
                         <button>Change Password</button>
                     </a>
                 </form>
-
             </div>
-
-
         </div>
-
     </body> 
-
-     <p style="text-align:center;">
-        
-         <?php 
-         
-         
-         echo $msg;
-         
-   
-        
-   
-       
-    ?>
-        
-    </p>
-
-
-
-
 </html>

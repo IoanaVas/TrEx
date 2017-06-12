@@ -1,11 +1,6 @@
 <?php
 require './test_connection.php';
-
-
 session_start();
-
-
-
 $msg = " ";
 
 /*
@@ -17,8 +12,6 @@ $msg = " ";
   if (mysqli_query($db, $sql)) ;
  */
 
-
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $myid = $_SESSION['login_id'];
     if (isset($_POST['group_name']) && $_POST['group_name'] !== '' && isset($_POST['group_description']) && $_POST['group_description'] !== '') {
@@ -27,7 +20,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $date = date('Y-m-d H:i:s');
 
 
-
+        $msg_create_group = "";
+        
+        if ( $name == 'Personal') $msg_create_group = 'Personal is a reserved word, choose another one!' ;
+        else
+        {
 
 
 
@@ -50,13 +47,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             ;
         }
         header('Location: solve.php');
+        }
     }
 }
 ?> 
 <!DOCTYPE html>
 <html>
-
-
     <head>
         <meta charset="UTF-8">
         <title>Expense Tracker</title>
@@ -64,79 +60,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <link rel="stylesheet" href="css/login.css">
         <link rel="stylesheet" href="css/expenses.css">
         <link rel="stylesheet" href="css/style.css">
-        <style>
-            body, html {
-                height: 100%;
-                margin: 0;
-            }
-
-            .bg {
-                /* The image used */
-                background-image: url("groups.jpg");
-
-                /* Full height */
-                height: 100%; 
-
-                /* Center and scale the image nicely */
-                background-position: center;
-                background-repeat: no-repeat;
-                background-size: cover;
-            }
-
-
-
-
-        </style>
-
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     </head>
-
-
-    <body background="login.jpg">
-
-
-        <div >
-
+    <body class="page groups-page">
+        <div>
             <div class="topnav" id="myTopnav">
                 <a href="login.php"> Profile </a>
                 <a href="groups.php">Groups</a>
                 <a href="expenses.php">Expenses</a>
                 <a href="reports.php">Reports</a>
                 <div class="right">
-                    <a href="index.php">Sign Out</a>
+                    <a href="logout.php">Sign Out</a>
                 </div>
             </div>
-
-            <br>
-            <br>
-
-
-
-
-
-
-
-            <!--    <div id="list5">
-              <ul>
-                  <li> Your Groups
-                     <ol>
-                        <li>Family  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp; <button id="button2" onclick="tableCreate(); this.onclick=null;">Show</button>
-                         </li>
-                        <li>Friends <span></span> <span class="backspace"></span>&nbsp; &nbsp;  &nbsp;  &nbsp;  &nbsp; <button id="button2" onclick="tableCreate(); this.onclick=null;">Show</button> 
-                          
-                            <button id="button2" onclick="window.location.href='manage_group.php'" >Manage</button>                         </li></li>
-                        <li>University <span></span> <span class="backspace2"></span>&nbsp;  &nbsp;  &nbsp; <button id="button2" onclick="tableCreate(); this.onclick=null;">Show</button>
-                             
-                         
-                     </ol>
-              </ul>
-                    &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp;<button id="button1" onclick="myFunction2(); this.onclick=null;"> Create Group </button>
-                     <button id="button1" onclick="refresh(); this.onclick=null;">Hide</button>
-            </div>-->
-
+            <h2 class="page-title">Your groups</h2>
+            <div class="page-content">
+            <div class="buttons">
+                <button id="button1" onclick="myFunction2(); this.onclick = null;"> Create Group </button>
+                <button id="button1" onclick="refresh(); this.onclick = null;">Hide</button
+            </div>
             <div id="list5">
                 <ul>
-                    <li> Your Groups </li>
-                    <ol>
                         <?php
                         $mygroups_name_manage = [];
                         $mygroups_id_manage = [];
@@ -151,10 +95,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 $result2 = mysqli_query($db, $sql);
                                 $rowz = mysqli_fetch_array($result2, MYSQLI_ASSOC);
                                 $this_group_name = $rowz['name'];
-                                echo "<li>" . $this_group_name . " </li>";
+                                echo "<li><div class='text'>" . $this_group_name . "</div>";
+                                echo "<div class='buttons'>";
                                 echo "<button id=\"button2\" onclick=\";\">Details</button>\n";
-                                echo "<button id=\"button2\" onclick=\"tableCreate(); this.onclick=null;\">Expenses</button>\n";
+                               
+                                echo " <a href=\"expenses_group.php?id=$rowgroupid\"> <button> Expenses</button> </a>\n";
+                                 
                                 echo "<button id=\"button2\" onclick=\";\">Leave</button>\n";
+                          
+                           
 
                                 $sql = "SELECT user_id FROM  group_details where id = '$rowgroupid'";
                                 $result3 = mysqli_query($db, $sql);
@@ -167,8 +116,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                     // creare vectori;
                                     array_push($mygroups_name_manage, $this_group_name);
                                     array_push($mygroups_id_manage, $rowgroupid);
+                                     //echo " <a href=\"manage_group.php?id=$rowgroupid\"> <button> Manage</button> </a>\n";
+                                    
                                 }
-
+                                     echo "</div></li>";
                                 /*
 
 
@@ -177,16 +128,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             }
                         }
                         ?>
-                    </ol>
                 </ul>
-                &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp;<button id="button1" onclick="myFunction2(); this.onclick = null;"> Create Group </button>
-                <button id="button1" onclick="refresh(); this.onclick = null;">Hide</button>
             </div>
-
-
-
-            <br>
-            <br>
+               
                 <?php
                $here = 0 ;
             $option = isset($_POST['taskOption']) ? $_POST['taskOption'] : false;
@@ -204,7 +148,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 }
             }
             ?>
-
        
                 <form method="post"  action="groups.php" >
                     <select name="taskOption">
@@ -215,21 +158,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 
                        ?>
                     </select>
-                    <input type="submit" value="Select a group first"/>
-
-
-
+                    <input class="button" type="submit" value="Select a group first"/>
                 </form>
-          
-              <button id="button2" onclick="window.location.href='manage_group.php'" >Manage</button>     
+                
+              <?php if(isset($_SESSION['manage_groupid'])) { ?>
+                <button class="button-manage" id="button2" onclick="window.location.href='manage_group.php'" >Manage</button>
+              <?php } ?>
 
             <p id="familie"> </p>
 
-            
-
             <div style="overflow-x:auto;">
                 <table id="imagetable" >
-
                 </table>
             </div>
 
@@ -238,15 +177,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                 <?php
                 echo $msg;
+                if ( isset($msg_create_group))
+                    echo $msg_create_group;
+                
+                
                 ?>
 
             </p>
-
-
-      <?php     
-
-echo  $_SESSION['manage_groupid']    ; ?>
-
 
                 <script>
 
@@ -378,8 +315,6 @@ echo  $_SESSION['manage_groupid']    ; ?>
 
 
                 </script>
-
-
-                </body> 
-
-                </html>
+            </div>
+    </body> 
+</html>

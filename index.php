@@ -5,44 +5,6 @@ require './test_connection.php';
 
 session_start();
 
-
-?> 
-
-
-
-
-
-<html >
-    <head>
-        <meta charset="UTF-8">
-        <title>Expense Tracker</title>
-
-
-
-        <link rel="stylesheet" href="css/style.css">
-
-        <style>
-            body, html {
-                height: 100%;
-                margin: 0;
-            }
-
-            .bg {
-                /* The image used */
-                background-image: url("login.jpg");
-
-                /* Full height */
-                height: 100%; 
-
-                /* Center and scale the image nicely */
-                background-position: center;
-                background-repeat: no-repeat;
-                background-size: cover;
-            }
-        </style>
-    </head>
-
-<?php
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['username'])) {
 
@@ -88,50 +50,41 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
   
 }
-?>
 
+?> 
 
+<html >
+    <head>
+        <meta charset="UTF-8">
+        <title>Expense Tracker</title>
 
-
-
-
-    <body background="login.jpg">
+        <link rel="stylesheet" href="css/style.css">
         <script src="js/index.js"></script>
+    </head>
 
+    <body class="page login-page">
+        <div class="darkoverlay"></div>
 
-
-
-
-        <div class="login-page">
-
+        <div>
             <div class="form">
-
                 <img src="logo.png" alt="Smiley face" align="middle">
                 <form class="login-form"  name="myForm"  role = "form" 
                       action = "index.php"   method = "post">
-                    <input type="text" placeholder="username" name="username" required/>
-                    <input type="password" name="pass" placeholder="password" required/>
-                    <button>login</button>
-
+                    <input type="text" placeholder="Enter your username here" name="username" />
+                    <input type="password" name="pass" placeholder="Enter your password here" />
+                    <button>Log in</button>
+                    <a href="signup.php">
+                        <button class="button-signup">Not registered? Create an account</button>
+                    </a>
                 </form>
-                <p class="message">Not registered? <a href="signup.php">Create an account</a></p>
             </div>
         </div>
-
-
-    </body>
-    <p style="text-align:center;">
-        
-         <?php 
-    if (isset($_SESSION['message'] ) )
-    {
+    <p style="text-align:center;">  
+    <?php 
+    if (isset($_SESSION['message'] ) ) {
         echo $_SESSION['message'] ;
-    
-      
     } 
-    ?>
-        
+    ?>    
     </p>
-   
-   
+    </body>
 </html>

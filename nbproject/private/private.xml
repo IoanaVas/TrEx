@@ -3,8 +3,18 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Apache24/htdocs/ExperTracker/test_connection.php</file>
-            <file>file:/C:/Apache24/htdocs/ExperTracker/index.php</file>
+            <file>file:/C:/xampp/htdocs/ExperTracker/manage_group.php</file>
+            <file>file:/C:/xampp/htdocs/ExperTracker/signup.php</file>
+            <file>file:/C:/xampp/htdocs/ExperTracker/groups.php</file>
+            <file>file:/C:/xampp/htdocs/ExperTracker/login.php</file>
+            <file>file:/C:/xampp/htdocs/ExperTracker/expenses.php</file>
+            <file>file:/C:/xampp/htdocs/ExperTracker/index.php</file>
+            <file>file:/C:/xampp/htdocs/ExperTracker/css/expenses.css</file>
+            <file>file:/C:/xampp/htdocs/ExperTracker/reports.php</file>
+            <file>file:/C:/xampp/htdocs/ExperTracker/expenses_group.php</file>
+            <file>file:/C:/xampp/htdocs/ExperTracker/logout.php</file>
+            <file>file:/C:/xampp/htdocs/ExperTracker/css/login.css</file>
+            <file>file:/C:/xampp/htdocs/ExperTracker/css/style.css</file>
         </group>
     </open-files>
 </project-private>

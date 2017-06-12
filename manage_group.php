@@ -1,13 +1,78 @@
 <?php
 require './test_connection.php';
 
-
 session_start();
-if ( ! ( isset( $_SESSION['manage_groupid']) )) header('Location: groups.php');
-              
-$msg = " ";
+
+
+$msg_add_user = " ";
+$msg_kick_user = " ";
+$msg_desc = " ";
+
+
+   
+  $groupid = $_SESSION['manage_groupid'];
+
+ $sql = "Select description from group_details where id = '$groupid' ";
+ $result = mysqli_query($db, $sql);
+ $rowz = mysqli_fetch_array($result, MYSQLI_ASSOC);
+ $description = $rowz['description'];
+
+
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+   
     $myid = $_SESSION['login_id'];
+
+   
+
+    if (isset($_POST['add_username']) && $_POST['add_username'] != '') {
+        $groupid = $_SESSION['manage_groupid'];
+        $user = $_POST['add_username'];
+
+        $sql = "SELECT id FROM users WHERE username = '$user' ";
+        $result = mysqli_query($db, $sql);
+        $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+
+        $id = $row['id'];
+
+
+        $sql = "INSERT INTO group_participants  VALUES ('$id', '$groupid' )";
+        if (mysqli_query($db, $sql)) {
+            ;
+        } else
+            $msg_add_user = "Couldn't add user";
+    }
+    if (isset($_POST['kick_username']) && $_POST['kick_username'] != '') {
+        $groupid = $_SESSION['manage_groupid'];
+        $user = $_POST['kick_username'];
+
+        $sql = "SELECT id FROM users WHERE username = '$user' ";
+        $result = mysqli_query($db, $sql);
+        $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+
+        $id = $row['id'];
+        
+        if ( $myid == $id) $msg_kick_user = " You can't kick yourself" ;
+        else
+        {
+             $sql = "DELETE from group_participants where users_id = '$id' and group_id = '$groupid'";
+            if (mysqli_query($db, $sql)) {
+                ;
+            } else
+                $msg_kick_user = "Couldn't kick user";
+            }
+    }
+
+    if (isset($_POST['description']) && $_POST['description'] != '') {
+        $groupid = $_SESSION['manage_groupid'];
+        $desc = $_POST['description'];
+
+        $sql = "Update group_details set description = '$desc' where id = '$groupid'";
+        if (mysqli_query($db, $sql)) {
+            ;
+        } else
+            $msg_desc = "Couldn't change ";
+    }
 }
 ?> 
 <!DOCTYPE html>
@@ -21,74 +86,65 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <link rel="stylesheet" href="css/login.css">
         <link rel="stylesheet" href="css/expenses.css">
         <link rel="stylesheet" href="css/style.css">
-        <style>
-            body, html {
-                height: 100%;
-                margin: 0;
-            }
-
-            .bg {
-                /* The image used */
-                background-image: url("groups.jpg");
-
-                /* Full height */
-                height: 100%; 
-
-                /* Center and scale the image nicely */
-                background-position: center;
-                background-repeat: no-repeat;
-                background-size: cover;
-            }
-
-
-
-
-        </style>
-
     </head>
 
 
-    <body background="login.jpg">
+    <body class="page managegroups-page">
+        <h2 class="page-title">Manage group</h2>
 
-        
-            
-        
 
-        
+
+
+
+
         <p style="text-align:center;">
-            
-            Current users in the group are :
-            <?php
-                        
-                        $ses_group_id = $_SESSION['manage_groupid'] ;
-                        $result = mysqli_query($db, "SELECT * FROM group_participants");
-                        while ($row = mysqli_fetch_array($result))
-                        {
-                            
-                            $group_id = $row['group_id'] ;
-                            $user_id = $row['users_id'] ;
-                            if ( $group_id == $ses_group_id )
-                            {
-                               
-                                $sql = "SELECT firstname, lastname, username from users WHERE id = '$user_id'";
-                                $result2 = mysqli_query($db,$sql);
-                                $row2 = mysqli_fetch_array($result2,MYSQLI_ASSOC);
-                                $nickname = $row2['firstname']." '".$row2['username']."' ".$row2['lastname']." ; ";
-                              
-                                
-                                echo $nickname;
-                                
-                            }
-                            
-                        }
-            
-            
-            ?>
-        
-        </p>
-        <div  >
 
-            <div class="login-page">
+            Current users in the group are :
+<?php
+$ses_group_id = $_SESSION['manage_groupid'];
+$result = mysqli_query($db, "SELECT * FROM group_participants");
+while ($row = mysqli_fetch_array($result)) {
+
+    $group_id = $row['group_id'];
+    $user_id = $row['users_id'];
+    if ($group_id == $ses_group_id) {
+
+        $sql = "SELECT firstname, lastname, username from users WHERE id = '$user_id'";
+        $result2 = mysqli_query($db, $sql);
+        $row2 = mysqli_fetch_array($result2, MYSQLI_ASSOC);
+        $nickname = $row2['firstname'] . " '" . $row2['username'] . "' " . $row2['lastname'] . " ; ";
+
+
+        echo $nickname;
+    }
+}
+?>
+
+        </p>
+
+
+
+        <p style="text-align:center;">
+
+            All the users :
+            <?php
+            $ses_group_id = $_SESSION['manage_groupid'];
+            $result = mysqli_query($db, "SELECT * FROM users");
+            while ($row = mysqli_fetch_array($result)) {
+
+
+                $nickname = $row['firstname'] . " '" . $row['username'] . "' " . $row['lastname'] . " ; ";
+
+
+                echo $nickname;
+            }
+            ?>
+
+        </p>
+
+
+
+
 
                 <div class="form">
                     <form class="login-form"  name="myForm"  role = "form" 
@@ -104,14 +160,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </div>
 
 
-            </div>
 
 
 
-        </div>
 
-
-        <div class="login-page">
 
             <div class="form">
                 <form class="login-form"  name="myForm"  role = "form" 
@@ -125,31 +177,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
 
 
-        </div>
 
 
 
-
-        <div class="login-page">
+  
 
             <div class="form">
                 <form class="login-form"  name="myForm"  role = "form" 
-                      action = "manage_group.php"   method = "post">
-                    <input type="text" placeholder="Description... " name="description"/> 
-                   
-                        <button> Change group description</button>
-                    
-                  
-                        <button style="background-color: black" onclick='this.form.action="groups.php";'> Back</button>
-                   
+                      action = "manage_group.php"   method = "post" id="group-description">
+                    <input type="text" placeholder="<?= $description ?>" name="description"/> 
+
+                    <button > Change group description</button>
+
+
+                    <button style="background-color: black" onclick='this.form.action = "groups.php";'> Back</button>
+
                 </form>
 
             </div>
 
 
-        </div>
 
-        
+
+
+
 
     </body> 
 
