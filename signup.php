@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         $error = "";
         $myusername = $_POST["us"]; // check if the username has been set
-        $mypassword = $_POST["pas"]; // check if the username has been set
+        $mypassword = md5($_POST["pas"]); // check if the username has been set
 
 
 

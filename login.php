@@ -85,7 +85,7 @@ session_start();
                     } else {
                         if ($_POST['repass'] == $_POST['repass2']) {
                            
-                            $newpass = $_POST['repass']; // check if the username has been set
+                            $newpass = md5($_POST['repass']); // check if the username has been set
                             $pass = $_SESSION['login_pass'];
                             $msg="Password succesfully changed" ;
                             
