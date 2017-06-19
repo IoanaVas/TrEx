@@ -4,28 +4,30 @@ require './test_connection.php';
 
 session_start();
      
-    $msg="";
+     $msg="";
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-		
         $myid =  $_SESSION['login_id'] ;
-		
         if (isset($_POST['firstname']) &&  $_POST['firstname'] !== '') {
             
-            $newfirstname = $_POST["firstname"]; 
+            $newfirstname = $_POST["firstname"]; // check if the username has been set
             $firstname = $_SESSION['login_firstname'];
             $sql = "Update users set firstname = '$newfirstname' where firstname = '$firstname' and id = '$myid' ";
-        
-			if (mysqli_query($db, $sql)) {
+            // $result = mysqli_query($db, $sql);
+            //  $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+
+            if (mysqli_query($db, $sql)) {
                 $_SESSION['login_firstname'] = $newfirstname;
             }
         }
         
         if (isset($_POST['lastname']) &&  $_POST['lastname'] !== '' ) {
 
-            $newlastname = $_POST["lastname"]; 
-            $lastname = $_SESSION['login_lastname'];          
-            $sql = "Update users set lastname = '$newlastname' where lastname = '$lastname' and id = '$myid'";
-			
+           $newlastname = $_POST["lastname"]; // check if the username has been set
+            $lastname = $_SESSION['login_lastname'];
+          
+            // $result = mysqli_query($db, $sql);
+            //  $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+               $sql = "Update users set lastname = '$newlastname' where lastname = '$lastname' and id = '$myid'";
             if (mysqli_query($db, $sql)) {
                 $_SESSION['login_lastname'] = $newlastname;
             }
@@ -33,10 +35,12 @@ session_start();
         
          if (isset($_POST['city']) &&  $_POST['city'] !== '' ) {
 
-            $newcity = $_POST["city"]; 
-            $city = $_SESSION['login_city'];          
-            $sql = "Update users set city = '$newcity' where city = '$city' and id = '$myid'";
-			
+           $newcity = $_POST["city"]; // check if the username has been set
+            $city = $_SESSION['login_city'];
+          
+            // $result = mysqli_query($db, $sql);
+            //  $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+               $sql = "Update users set city = '$newcity' where city = '$city' and id = '$myid'";
             if (mysqli_query($db, $sql)) {
                 $_SESSION['login_city'] = $newcity;
             }
@@ -45,10 +49,12 @@ session_start();
         
          if (isset($_POST['job']) &&  $_POST['job'] !== '' ) {
 
-            $newjob = $_POST["job"]; 
+           $newjob = $_POST["job"]; // check if the username has been set
             $job = $_SESSION['login_job'];
-            $sql = "Update users set job = '$newjob' where job = '$job' and id = '$myid'";
-			
+          
+            // $result = mysqli_query($db, $sql);
+            //  $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+               $sql = "Update users set job = '$newjob' where job = '$job' and id = '$myid'";
             if (mysqli_query($db, $sql)) {
                 $_SESSION['login_job'] = $newjob;
             }
@@ -56,10 +62,12 @@ session_start();
         
          if (isset($_POST['age']) &&  $_POST['age'] !== '' ) {
 
-            $newage = $_POST["age"]; 
-            $age = $_SESSION['login_age'];         
-            $sql = "Update users set age = '$newage' where age = '$age' and id = '$myid'";
-			
+           $newage = $_POST["age"]; // check if the username has been set
+            $age = $_SESSION['login_age'];
+          
+            // $result = mysqli_query($db, $sql);
+            //  $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+               $sql = "Update users set age = '$newage' where age = '$age' and id = '$myid'";
             if (mysqli_query($db, $sql)) {
                 $_SESSION['login_age'] = $newage;
             }
@@ -69,8 +77,7 @@ session_start();
          if (isset($_POST['pass']) && $_POST['pass'] !== '') {
 
             if (isset($_POST['repass']) && $_POST['repass'] !== '') {
-                
-				if (isset($_POST['repass2']) && $_POST['repass2'] !== '') {
+                if (isset($_POST['repass2']) && $_POST['repass2'] !== '') {
 
 
                     if ($_POST['pass'] !== $_SESSION['login_pass']) {
@@ -78,17 +85,23 @@ session_start();
                     } else {
                         if ($_POST['repass'] == $_POST['repass2']) {
                            
-                            $newpass = md5($_POST['repass']); 
+                            $newpass = $_POST['repass']; // check if the username has been set
                             $pass = $_SESSION['login_pass'];
-                            $msg="Password succesfully changed" ;                     
+                         
+
+                            $msg="Password succesfully changed" ;
+                            
+                            
+                            
+                            // $result = mysqli_query($db, $sql);
+                            //  $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
                             $sql = "Update users set password = '$newpass' where password = '$pass' and id = '$myid'";
-							
                             if (mysqli_query($db, $sql)) {
-                                $_SESSION['login_pass'] = $newpass;
+                               $_SESSION['login_pass'] = $newpass;
                             }
                         }
-							else
-								$msg="Password incorrect or new password doesn't match" ;
+                        else
+                            $msg="Password incorrect or new password doesn't match" ;
                        
                     }
                 }

@@ -33,6 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <link rel="stylesheet" href="css/login.css">
         <link rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="css/expenses.css">
+          <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
         <style>
             table {
                 font-family: arial, sans-serif;
@@ -70,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                   method = "post" action=""> 
                 <input type="text" placeholder="Expense" name="expense" required />
                 <input type="number" placeholder="Cost" name="cost" required/>
-                <input type="text" placeholder="Date in format year-month-day" name="date" required/>
+                <input type="date" placeholder="Date in format year-month-day" name="date" required/>
                 
                 <button style="margin-top:30px;"> Add Expense </button>
                 

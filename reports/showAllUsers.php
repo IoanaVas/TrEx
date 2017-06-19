@@ -2,10 +2,6 @@
 
 require('../test_connection.php');
 
-function raport_cheltuieli_json($expense_name) {
-
-    return $suma;
-}
 
 $result = mysqli_query($db, "SELECT * FROM users") or die('Error');
 
@@ -135,6 +131,76 @@ switch ($reptype) {
             default:
         }
         break;
+    
+    
+     case 'raport_place':
+         
+         $costs = 0;
+         $buyings = 0;
+        $result = mysqli_query($db, "SELECT * FROM users where city ='$dataFromQuery'") or die('Error');
+        while ($row = mysqli_fetch_array($result)) {
+
+
+            $id = $row['id'];
+            $result2 = mysqli_query($db, "SELECT * FROM expenses where user_id ='$id'") or die('Error');
+            while ($row2 = mysqli_fetch_array($result2)) {
+              $cost = $row2['cost'] ;
+              $buyings++;
+              $costs += $cost;
+            }
+
+            
+        }
+       
+
+
+
+        switch ($type) {
+
+
+            case 'json':
+                $response['Money spent'] = $costs;
+                $response['expense_avg_cost'] = $costs/$buyings;
+                $response['total_expenses'] = $buyings;
+           
+
+                $data = json_encode($response);
+                break;
+            case 'xml':
+                $data = '<collection>';
+
+            
+                $data .= "<Money_spent>" . $costs . "</Money_spent>";
+                $data .= "<expense_avg_cost>" . $costs/$buyings . "</expense_avg_cost>";
+                $data .= "<total_expenses>" . $buyings . "</total_expenses>";
+        
+           
+              
+
+                $data .= '</collection>';
+                break;
+            case 'html':
+                $data = '<html></html>';
+                $data .= '<p> Money Spent: ' . $costs . '</p>';
+                $data .= '<p>Average Expense Cost : ' . $costs/$buyings . '</p>';
+                $data .= '<p>Total Expenses: ' . $buyings . '</p>';
+                $data .= '<head></head>';
+                break;
+            default:
+        }
+        break;
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }
 
 

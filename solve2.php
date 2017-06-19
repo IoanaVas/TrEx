@@ -7,7 +7,6 @@
     
  
 }
-   
-     header('Location: expenses_group.php?id='.$this_group_id);
+    header('Location: expenses_group.php?id='.$this_group_id);
  ?>
 

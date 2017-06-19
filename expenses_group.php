@@ -4,6 +4,10 @@ session_start();
 if (!empty($_GET['id'])) {
 
     $this_group_id = $_GET['id'];
+    $sql = "Select name from group_details where id = '$this_group_id' ";
+    $result = mysqli_query($db, $sql);
+    $rowz = mysqli_fetch_array($result, MYSQLI_ASSOC);
+    $groupname = $rowz['name'];
 }
 ?>
 
@@ -45,7 +49,7 @@ if (!empty($_GET['id'])) {
         
         <p style="text-align:center;">
 
-            Current users in the group are :
+            Current users in the <?php echo $groupname ?>  group are :
             <?php
             $result = mysqli_query($db, "SELECT * FROM group_participants");
             while ($row = mysqli_fetch_array($result)) {
@@ -60,7 +64,7 @@ if (!empty($_GET['id'])) {
                     $nickname = $row2['firstname'] . " '" . $row2['username'] . "' " . $row2['lastname'] . " ; ";
 
 
-                    echo $nickname;
+                   echo $nickname;
                 }
             }
             ?>
@@ -116,12 +120,21 @@ if (!empty($_GET['id'])) {
                   method = "post" action=""> 
                 <input type="text" placeholder="Expense" name="expense" required />
                 <input type="number" placeholder="Cost" name="cost" required/>
-                <input type="text" placeholder="Date in format year-month-day" name="date" required/>
+                <input type="date" placeholder="Date in format year-month-day" name="date" required/>
                 
                 <button> Add Expense </button>
                 
+            </form>
+</div>
+          <h2 class="page-title" style="color:black"> Filter the expenses by </h2>
+              <div style="display:inline-block; vertical-align: middle; margin-left:650px">
+            <button onclick="location.href = 'expenses_group_filter.php?id=1&opt=1&group_id=<?php echo $this_group_id;?>'">Cost Asc</button> &nbsp;
+            <button onclick="location.href = 'expenses_group_filter.php?id=1&opt=2&group_id=<?php echo $this_group_id;?>'">Cost Desc</button> &nbsp;
+            <button onclick="location.href = 'expenses_group_filter.php?id=2&opt=1&group_id=<?php echo $this_group_id;?>'">Name Asc</button> &nbsp; 
+            <button onclick="location.href = 'expenses_group_filter.php?id=2&opt=2&group_id=<?php echo $this_group_id;?>'">Name Desc</button> &nbsp; 
+            <button onclick="location.href = 'expenses_group_filter.php?id=3&opt=1&group_id=<?php echo $this_group_id;?>'">Date Asc</button>  &nbsp; 
 
-
+                 </div>
 
 
     </body>
@@ -149,7 +162,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $username = $_SESSION['login_user'];
         $sql = "INSERT INTO Expenses  VALUES ('$myid', '$expense', '$cost','$date', '$this_group_name', '$this_group_id' )";
         if (mysqli_query($db, $sql)) {
-        echo "New record created successfully";
+            ;
         } else {
         echo "Error: " . $sql . "<br>" . mysqli_error($conn);
         }

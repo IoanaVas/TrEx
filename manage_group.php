@@ -13,10 +13,11 @@ $msg_new_manager = " ";
 
 $groupid = $_GET['id'];
 
-$sql = "Select description from group_details where id = '$groupid' ";
+$sql = "Select description, name from group_details where id = '$groupid' ";
 $result = mysqli_query($db, $sql);
 $rowz = mysqli_fetch_array($result, MYSQLI_ASSOC);
 $description = $rowz['description'];
+$groupname = $rowz['name'];
 
 
 
@@ -111,7 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $msg_new_manager = "Username not found. Couldn't change manager";
     }
 }
-?>
+?> 
 <!DOCTYPE html>
 <html>
 
@@ -134,24 +135,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
 
-        
-
-
         <p style="text-align:center;">
 
-            All the users :
+            Current users in the group <?php echo $groupname ?> are :
             <?php
             $ses_group_id = $_GET['id'];
-			$sql="SELECT username FROM users";
-            $result = mysqli_query($db, $sql);
-
-            echo "<select name='username'>";
+            $result = mysqli_query($db, "SELECT * FROM group_participants");
             while ($row = mysqli_fetch_array($result)) {
 
-               echo "<option value='" . $row['username'] ."'>" . $row['username'] ."</option>";
+                $group_id = $row['group_id'];
+                $user_id = $row['users_id'];
+                if ($group_id == $ses_group_id) {
 
+                    $sql = "SELECT firstname, lastname, username from users WHERE id = '$user_id'";
+                    $result2 = mysqli_query($db, $sql);
+                    $row2 = mysqli_fetch_array($result2, MYSQLI_ASSOC);
+                    $nickname = $row2['firstname'] . " '" . $row2['username'] . "' " . $row2['lastname'] . " ; ";
+
+
+                    echo $nickname;
+                }
             }
-            echo "</select>";
             ?>
 
         </p>
@@ -159,10 +163,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
 
-
         <div class="form">
-            <form class="login-form"  name="myForm"  role = "form" action = ""   method = "post">
-                <input type="text" placeholder="Add user by username: " name="add_username"/>
+            <form class="login-form"  name="myForm"  role = "form" 
+                  action = ""   method = "post">
+                <input type="text" placeholder="Add user by username: " name="add_username"/> 
                 <a href="manage_group.php">
                     <button>Add</button>
                 </a>
@@ -179,9 +183,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
         <div class="form">
-            <form class="login-form"  name="myForm"  role = "form"
+            <form class="login-form"  name="myForm"  role = "form" 
                   action = ""   method = "post">
-                <input type="text" placeholder="Kick user by username: " name="kick_username"/>
+                <input type="text" placeholder="Kick user by username: " name="kick_username"/> 
                 <a href="manage_group.php">
                     <button> Kick user</button>
                 </a>
@@ -196,9 +200,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
         <div class="form">
-            <form class="login-form"  name="myForm"  role = "form"
+            <form class="login-form"  name="myForm"  role = "form" 
                   action = ""   method = "post" id="group-description">
-                <input type="text" placeholder="<?= $description ?>" name="description"/>
+                <input type="text" placeholder="<?= $description ?>" name="description"/> 
 
                 <button > Change group description</button>
 
@@ -211,9 +215,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
         <div class="form">
-            <form class="login-form"  name="myForm"  role = "form"
+            <form class="login-form"  name="myForm"  role = "form" 
                   action = ""   method = "post" id="group-description">
-                <input type="text" placeholder="Insert a new manager by username" name="manager"/>
+                <input type="text" placeholder="Insert a new manager by username" name="manager"/> 
 
                 <button> Change group manager</button>
 
@@ -226,10 +230,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
 
+         <br> <br> <br>
+         <h2 class="page-title"> See all the users of the website </h2>
+         
+         
+          <button onclick="location.href = 'print_users.php'  " style="margin-left:915px"> Users </button> 
+          
+          <br> <br>
 
 
 
-
-    </body>
+    </body> 
 
 </html>

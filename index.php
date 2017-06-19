@@ -12,8 +12,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (isset($_POST['pass'])) {
             $error = "";
             $myusername = $_POST["username"]; // check if the username has been set
-            $mypassword = md5($_POST["pass"]); // check if the username has been set
-        
+            $mypassword = $_POST["pass"]; // check if the username has been set
+         
+
             
               $sql = "SELECT id,firstname,lastname, city, job, age  FROM users WHERE username = '$myusername' and password = '$mypassword'";
               $result = mysqli_query($db,$sql);
